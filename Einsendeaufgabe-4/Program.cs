@@ -98,7 +98,20 @@ namespace Einsendeaufgabe_4
         }
 
         static void ListCrates(Box[] crateArray){
-            
+            int counter = 0;
+            while (crateArray[counter].id != 0){
+                counter++;
+            }
+
+            for (int i = 0; i <= counter; i++){
+                Console.WriteLine("Kiste mit ID: {0}", crateArray[i].id);
+                Console.WriteLine("Breite: {0}", crateArray[i].width);
+                Console.WriteLine("Höhe: {0}", crateArray[i].height);
+                Console.WriteLine("Tiefe: {0}", crateArray[i].depth);
+                Console.WriteLine("Volumen: {0}", crateArray[i].depth);
+                Console.WriteLine();
+            }
+
         }
 
        
