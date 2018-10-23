@@ -28,8 +28,6 @@ Einsendeaufgabe 4
 ###################################################### */
 using System;
 
-//TODO: Absturz bei Eingabe einer 0 verhindern!
-
 namespace Einsendeaufgabe_4
 {
     class Program
@@ -73,9 +71,14 @@ namespace Einsendeaufgabe_4
             while (correct == false)
             {
                 try
-                {
+                { 
                     input = Convert.ToInt32(Console.ReadLine());
-                    correct = true;
+                    if (input > 0)
+                    {
+                        correct = true;
+                    } else{
+                        Console.WriteLine("Bitte geben Sie eine Zahl größer als 0 ein!");
+                    }
                 }
                 catch (FormatException)
                 {
@@ -84,29 +87,32 @@ namespace Einsendeaufgabe_4
             }
            return input;
         }
+
+
         static void AddBox(Box[]crateArray) {
             crateArray[cratesID].id = cratesID + 1;
             Console.WriteLine("Neue Kiste mit ID {0} erstellen.",crateArray[cratesID].id);
 
             Console.WriteLine("Bitte Maße eingeben: ");
            
-            Console.WriteLine("Breite: ");
+            Console.Write("Breite: ");
             crateArray[cratesID].width = InputNumber();
 
-            Console.WriteLine("Höhe: ");
+            Console.Write("Höhe: ");
             crateArray[cratesID].height = InputNumber();
 
-            Console.WriteLine("Tiefe: ");
+            Console.Write("Tiefe: ");
             crateArray[cratesID].depth = InputNumber();
 
             crateArray[cratesID].volume = Volume(crateArray[cratesID].width, crateArray[cratesID].height, crateArray[cratesID].depth);
             Console.WriteLine("Das errechnete Volumen ist: {0}", crateArray[cratesID].volume);
             cratesID++;
+            Console.ReadKey();
 
         }
 
         static void DeleteBox(Box[]crateArray) {
-            Console.WriteLine("Geben Sie die ID der Kiste ein, die Sie entfernen möchten: ");
+            Console.Write("Geben Sie die ID der Kiste ein, die Sie entfernen möchten: ");
             int selection = InputNumber() - 1;
             int crateExists = DoesExist(selection, crateArray);
             while (crateExists != 1)
@@ -119,7 +125,7 @@ namespace Einsendeaufgabe_4
                 {
                     Console.WriteLine("So groß ist unser Lagerhaus nicht!");
                 }
-                Console.WriteLine("Geben Sie eine gültige ID ein: ");
+                Console.Write("Geben Sie eine gültige ID ein: ");
                 selection = InputNumber() - 1;
                 crateExists = DoesExist(selection, crateArray);
             }
@@ -130,7 +136,7 @@ namespace Einsendeaufgabe_4
             crateArray[selection].volume = 0;
             Console.WriteLine("Kiste mit ID {0} gelöscht.", selection + 1);
             Console.WriteLine();
-
+            Console.ReadKey();
         }
 
         static void EditBox(Box[]crateArray) {
@@ -138,7 +144,7 @@ namespace Einsendeaufgabe_4
         }
 
         static void DisplayBox(Box[]crateArray){
-            Console.WriteLine("Geben Sie die ID der Kiste ein, die Sie betrachten möchten: ");
+            Console.Write("Geben Sie die ID der Kiste ein, die Sie betrachten möchten: ");
             int selection = InputNumber() - 1;
             int crateExists = DoesExist(selection, crateArray);
             while (crateExists != 1){
@@ -158,24 +164,25 @@ namespace Einsendeaufgabe_4
             Console.WriteLine("Tiefe: {0}", crateArray[selection].depth);
             Console.WriteLine("Volumen: {0}", crateArray[selection].volume);
             Console.WriteLine();
+            Console.ReadKey();
 
 
         }
 
         static void ListAllBoxes(Box[] crateArray){
-            int counter = 0;
-            while (crateArray[counter].id != 0){
-                counter++;
-            }
+            for (int i = 0; i < crateArray.Length; i++){
 
-            for (int i = 0; i <= counter; i++){
-                Console.WriteLine("Kiste mit ID: {0}", crateArray[i].id);
-                Console.WriteLine("Breite: {0}", crateArray[i].width);
-                Console.WriteLine("Höhe: {0}", crateArray[i].height);
-                Console.WriteLine("Tiefe: {0}", crateArray[i].depth);
-                Console.WriteLine("Volumen: {0}", crateArray[i].depth);
-                Console.WriteLine();
+                if (crateArray[i].id != 0)
+                {
+                    Console.WriteLine("Kiste mit ID: {0}", crateArray[i].id);
+                    Console.WriteLine("Breite: {0}", crateArray[i].width);
+                    Console.WriteLine("Höhe: {0}", crateArray[i].height);
+                    Console.WriteLine("Tiefe: {0}", crateArray[i].depth);
+                    Console.WriteLine("Volumen: {0}", crateArray[i].depth);
+                    Console.WriteLine();
+                }
             }
+            Console.ReadKey();
 
         }
 
