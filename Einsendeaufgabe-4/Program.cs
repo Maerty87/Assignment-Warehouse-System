@@ -46,17 +46,39 @@ namespace Einsendeaufgabe_4
 
         }
 
-
-        static bool DoesExist(int crateNumber, Box[] crateArray){
+        //Methode zur Prüfung ob eine Kiste existiert. Erspart Tipparbeit.
+        static int DoesExist(int crateNumber, Box[] crateArray){
             if (crateNumber > 74){
-                Console.WriteLine("Die Auswahl übersteigt die Kapazität der Lagerhalle!");
-                return false;
+                // Um einen Überlauf vorzubeugen wird hier geprüft, ob die Eingabe größer als das Array ist, wenn ja wird -1 zurück gegeben.
+                return -1;
             }
-            if (crateArray[crateNumber] == 0){
+            if (crateArray[crateNumber].id == 0){
+                //Wenn der Eintrag im Array leer ist, gib 0 zurück
+                return 0;
 
+            }else{
+                //ansonsten gib 1 zurück
+                return 1;
             }
         }
 
+        static int InputNumber() {
+            bool correct = false;
+            int input = 0;
+            while (correct == false)
+            {
+                try
+                {
+                    input = Convert.ToInt32(Console.ReadLine());
+                    correct = true;
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Geben Sie bitte eine Ganzzahl ein! ");
+                }
+            }
+           return input;
+        }
         static void AddBox(Box[]crateArray) {
             
         }
@@ -70,6 +92,8 @@ namespace Einsendeaufgabe_4
         }
 
         static void DisplayBox(Box[]crateArray){
+            Console.WriteLine("Geben Sie die Nummer der Box ein, die Sie betrachten möchten: ");
+            InputNumber();
 
         }
 
