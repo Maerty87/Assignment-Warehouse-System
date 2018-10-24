@@ -33,7 +33,7 @@ namespace Einsendeaufgabe_4
     class Program
     {
 
-        static int cratesID = 0;
+        static int cratesCounter = 0;
 
         struct Box {
             public int id;
@@ -88,31 +88,7 @@ namespace Einsendeaufgabe_4
            return input;
         }
 
-
-        static void AddBox(Box[]crateArray) {
-            crateArray[cratesID].id = cratesID + 1;
-            Console.WriteLine("Neue Kiste mit ID {0} erstellen.",crateArray[cratesID].id);
-
-            Console.WriteLine("Bitte Maße eingeben: ");
-           
-            Console.Write("Breite: ");
-            crateArray[cratesID].width = InputNumber();
-
-            Console.Write("Höhe: ");
-            crateArray[cratesID].height = InputNumber();
-
-            Console.Write("Tiefe: ");
-            crateArray[cratesID].depth = InputNumber();
-
-            crateArray[cratesID].volume = Volume(crateArray[cratesID].width, crateArray[cratesID].height, crateArray[cratesID].depth);
-            Console.WriteLine("Das errechnete Volumen ist: {0}", crateArray[cratesID].volume);
-            cratesID++;
-            Console.ReadKey();
-
-        }
-
-        static void DeleteBox(Box[]crateArray) {
-            Console.Write("Geben Sie die ID der Kiste ein, die Sie entfernen möchten: ");
+        static int InputID(Box[]crateArray){
             int selection = InputNumber() - 1;
             int crateExists = DoesExist(selection, crateArray);
             while (crateExists != 1)
@@ -125,64 +101,150 @@ namespace Einsendeaufgabe_4
                 {
                     Console.WriteLine("So groß ist unser Lagerhaus nicht!");
                 }
-                Console.Write("Geben Sie eine gültige ID ein: ");
-                selection = InputNumber() - 1;
-                crateExists = DoesExist(selection, crateArray);
-            }
-            crateArray[selection].id = 0;
-            crateArray[selection].width = 0;
-            crateArray[selection].height = 0;
-            crateArray[selection].depth = 0;
-            crateArray[selection].volume = 0;
-            Console.WriteLine("Kiste mit ID {0} gelöscht.", selection + 1);
-            Console.WriteLine();
-            Console.ReadKey();
-        }
-
-        static void EditBox(Box[]crateArray) {
-
-        }
-
-        static void DisplayBox(Box[]crateArray){
-            Console.Write("Geben Sie die ID der Kiste ein, die Sie betrachten möchten: ");
-            int selection = InputNumber() - 1;
-            int crateExists = DoesExist(selection, crateArray);
-            while (crateExists != 1){
-                    if(crateExists == 0) {
-                    Console.WriteLine("Die Kiste mit dieser ID existiert nicht!");
-                    } else {
-                    Console.WriteLine("So groß ist unser Lagerhaus nicht!");
-                    }
                 Console.WriteLine("Geben Sie eine gültige ID ein: ");
                 selection = InputNumber() - 1;
                 crateExists = DoesExist(selection, crateArray);
             }
-            Console.WriteLine("Kiste: ");
-            Console.WriteLine("ID: {0}", crateArray[selection].id);
-            Console.WriteLine("Breite: {0}", crateArray[selection].width);
-            Console.WriteLine("Höhe: {0}", crateArray[selection].height);
-            Console.WriteLine("Tiefe: {0}", crateArray[selection].depth);
-            Console.WriteLine("Volumen: {0}", crateArray[selection].volume);
-            Console.WriteLine();
+            return selection;
+        }
+
+
+        static void AddBox(Box[]crateArray) {
+            int localCounter = 0;
+            while(crateArray[localCounter].id != 0){
+                localCounter++;
+            }
+            crateArray[localCounter].id = localCounter + 1;
+            Console.WriteLine("Neue Kiste mit ID {0} erstellen.",crateArray[localCounter].id);
+
+            Console.WriteLine("Bitte Maße eingeben: ");
+           
+            Console.Write("Breite: ");
+            crateArray[localCounter].width = InputNumber();
+
+            Console.Write("Höhe: ");
+            crateArray[localCounter].height = InputNumber();
+
+            Console.Write("Tiefe: ");
+            crateArray[localCounter].depth = InputNumber();
+
+            crateArray[localCounter].volume = Volume(crateArray[localCounter].width, crateArray[localCounter].height, crateArray[localCounter].depth);
+            Console.WriteLine("Das errechnete Volumen ist: {0}", crateArray[localCounter].volume);
+            cratesCounter++;
             Console.ReadKey();
+
+        }
+
+        static void DeleteBox(Box[]crateArray) {
+            if (cratesCounter > 0)
+            {
+                Console.Write("Geben Sie die ID der Kiste ein, die Sie löschen möchten: ");
+                int selection = InputID(crateArray);
+
+                crateArray[selection].id = 0;
+                crateArray[selection].width = 0;
+                crateArray[selection].height = 0;
+                crateArray[selection].depth = 0;
+                crateArray[selection].volume = 0;
+                Console.WriteLine("Kiste mit ID {0} gelöscht.", selection + 1);
+                Console.WriteLine();
+                cratesCounter--;
+                Console.WriteLine("Drücken Sie eine  beliebige Taste um fortzufahren..."); 
+                Console.ReadKey();
+            }else{
+                Console.WriteLine("Es gibt keine Kisten, die man löschen könnte");
+                Console.WriteLine();
+                Console.WriteLine("Drücken Sie eine  beliebige Taste um fortzufahren...");
+                Console.ReadKey();
+            }
+        }
+
+        static void EditBox(Box[]crateArray) {
+            if (cratesCounter > 0)
+            {
+                Console.Write("Geben Sie die ID der Kiste ein, die Sie bearbeiten möchten: ");
+                int selection = InputID(crateArray);
+
+                Console.WriteLine("Kiste: ");
+                Console.WriteLine("ID: {0}", crateArray[selection].id);
+                Console.WriteLine("Breite: {0}", crateArray[selection].width);
+                Console.WriteLine("Höhe: {0}", crateArray[selection].height);
+                Console.WriteLine("Tiefe: {0}", crateArray[selection].depth);
+                Console.WriteLine("Volumen: {0}", crateArray[selection].volume);
+                Console.WriteLine();
+                Console.WriteLine("Bitte neue Werte für Kiste mit ID {0} eingeben.", crateArray[selection].id);
+                Console.Write("Breite: ");
+                crateArray[selection].width = InputNumber();
+
+                Console.Write("Höhe: ");
+                crateArray[selection].height = InputNumber();
+
+                Console.Write("Tiefe: ");
+                crateArray[selection].depth = InputNumber();
+
+                crateArray[selection].volume = Volume(crateArray[selection].width, crateArray[selection].height, crateArray[selection].depth);
+                Console.WriteLine("Das errechnete Volumen ist: {0}", crateArray[selection].volume);
+                Console.WriteLine("Bearbeitung der Kiste ID {0} beendet.", crateArray[selection].id);
+                Console.WriteLine("Drücken Sie eine  beliebige Taste um fortzufahren...");
+                Console.ReadKey();            
+             }else{
+                Console.WriteLine("Es gibt keine Kisten zum bearbeiten.");
+                Console.WriteLine();
+                Console.WriteLine("Drücken Sie eine  beliebige Taste um fortzufahren...");
+                Console.ReadKey();
+            }
 
 
         }
 
-        static void ListAllBoxes(Box[] crateArray){
-            for (int i = 0; i < crateArray.Length; i++){
+        static void DisplayBox(Box[]crateArray){
+            if (cratesCounter > 0)
+            {
+                Console.Write("Geben Sie die ID der Kiste ein, die Sie betrachten möchten: ");
+                int selection = InputID(crateArray);
 
-                if (crateArray[i].id != 0)
-                {
-                    Console.WriteLine("Kiste mit ID: {0}", crateArray[i].id);
-                    Console.WriteLine("Breite: {0}", crateArray[i].width);
-                    Console.WriteLine("Höhe: {0}", crateArray[i].height);
-                    Console.WriteLine("Tiefe: {0}", crateArray[i].depth);
-                    Console.WriteLine("Volumen: {0}", crateArray[i].depth);
-                    Console.WriteLine();
-                }
+                Console.WriteLine("Kiste: ");
+                Console.WriteLine("ID: {0}", crateArray[selection].id);
+                Console.WriteLine("Breite: {0}", crateArray[selection].width);
+                Console.WriteLine("Höhe: {0}", crateArray[selection].height);
+                Console.WriteLine("Tiefe: {0}", crateArray[selection].depth);
+                Console.WriteLine("Volumen: {0}", crateArray[selection].volume);
+                Console.WriteLine();
+                Console.WriteLine("Drücken Sie eine  beliebige Taste um fortzufahren...");
+                Console.ReadKey();            
+            }else{
+                Console.WriteLine("Es gibt keine Kisten, die man anzeigen könnte.");
+                Console.WriteLine();
+                Console.WriteLine("Drücken Sie eine  beliebige Taste um fortzufahren...");
+                Console.ReadKey();
             }
-            Console.ReadKey();
+
+        }
+
+        static void ListAllBoxes(Box[] crateArray){
+            if (cratesCounter > 0)
+            {
+                for (int i = 0; i < crateArray.Length; i++)
+                {
+
+                    if (crateArray[i].id != 0)
+                    {
+                        Console.WriteLine("Kiste mit ID: {0}", crateArray[i].id);
+                        Console.WriteLine("Breite: {0}", crateArray[i].width);
+                        Console.WriteLine("Höhe: {0}", crateArray[i].height);
+                        Console.WriteLine("Tiefe: {0}", crateArray[i].depth);
+                        Console.WriteLine("Volumen: {0}", crateArray[i].volume);
+                        Console.WriteLine();
+                    }
+                }
+                Console.WriteLine("Drücken Sie eine  beliebige Taste um fortzufahren...");
+                Console.ReadKey();
+            }else{
+                Console.WriteLine("Es gibt keine Kisten, die man anzeigen könnte.");
+                Console.WriteLine();
+                Console.WriteLine("Drücken Sie eine  beliebige Taste um fortzufahren...");
+                Console.ReadKey();
+            }
 
         }
 
@@ -190,6 +252,7 @@ namespace Einsendeaufgabe_4
         static void DisplayMenue(){
             Console.Clear();
             Console.WriteLine("Willkommen in der elektronischen Lagerhausverwaltung.");
+            Console.WriteLine("Derzeit befinden sich {0} Kisten im Lager.", cratesCounter);
             Console.WriteLine("Was möchten Sie tun?");
             Console.WriteLine("(1) Neue Kiste anlegen.");
             Console.WriteLine("(2) Vorhandene Kiste anzeigen.");
