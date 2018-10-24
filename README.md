@@ -1,7 +1,7 @@
 # Einsendeaufgabe-4
 Warehouse administration. Assignment for my informatics course
 ####WARNING!####
-The code is written in English but since it is an assignment for an german course for studying informatics, all 
+The code is written in English but since it is an assignment of a german course for studying informatics, all 
 the descriptions and comments are in GERMAN.
 
 The full assignment description is also in the source file (top comment block, 
