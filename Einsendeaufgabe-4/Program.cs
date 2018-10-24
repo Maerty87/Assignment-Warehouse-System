@@ -32,9 +32,10 @@ namespace Einsendeaufgabe_4
 {
     class Program
     {
-
+        //Erstellen einer Klassenvariable um einen allgemeinen Zähler für Kisten zu haben
         static int cratesCounter = 0;
 
+        //Erstellen der Struktur für eine Kiste
         struct Box {
             public int id;
             public int width;
@@ -43,6 +44,7 @@ namespace Einsendeaufgabe_4
             public int volume;
         }
 
+        //Methode zum Berechnen des Volumens der Kiste
         static int Volume(int w, int h, int d) {
             return w * h * d;
 
@@ -65,6 +67,7 @@ namespace Einsendeaufgabe_4
             }
         }
 
+        //Um falsche Benutzereingaben zu verhindern wird hier eine eigene Funktion zum Abfragen von Int Zahlen verwendet
         static int InputNumber() {
             bool correct = false;
             int input = 0;
@@ -88,6 +91,7 @@ namespace Einsendeaufgabe_4
            return input;
         }
 
+        //Spezielle Methode zum Abfragen von Kisten-IDs mit sofortiger Überprüfung der Existenz. Gibt die korrekte Auswahl zurück um diese als Index zu verwenden
         static int InputID(Box[]crateArray){
             int selection = InputNumber() - 1;
             int crateExists = DoesExist(selection, crateArray);
@@ -109,11 +113,15 @@ namespace Einsendeaufgabe_4
         }
 
 
+        //Funktion zum Hinzufügen einer Kiste
         static void AddBox(Box[]crateArray) {
+            //Um stets den nächsten leeren Stellplatz zu nutzen, wird abgezählt wie viele belegt sind und der erste freie genommen.
             int localCounter = 0;
             while(crateArray[localCounter].id != 0){
                 localCounter++;
             }
+
+            //Abfrage und Speicherung der Maße
             crateArray[localCounter].id = localCounter + 1;
             Console.WriteLine("Neue Kiste mit ID {0} erstellen.",crateArray[localCounter].id);
 
@@ -135,12 +143,14 @@ namespace Einsendeaufgabe_4
 
         }
 
+
         static void DeleteBox(Box[]crateArray) {
+            //Um einen Fehler vorzubeugen wird erst abgefragt, ob überhaupt Kisten existieren
             if (cratesCounter > 0)
             {
                 Console.Write("Geben Sie die ID der Kiste ein, die Sie löschen möchten: ");
                 int selection = InputID(crateArray);
-
+                //Wenn eine Kiste gelöscht wird, werden ALLE Werte auf 0 gesetzt. Auch wenn dies nicht zwingend notwendig ist, bevorzuge ich es.
                 crateArray[selection].id = 0;
                 crateArray[selection].width = 0;
                 crateArray[selection].height = 0;
@@ -160,11 +170,12 @@ namespace Einsendeaufgabe_4
         }
 
         static void EditBox(Box[]crateArray) {
+            //Um einen Fehler vorzubeugen wird erst abgefragt, ob überhaupt Kisten existieren
             if (cratesCounter > 0)
             {
                 Console.Write("Geben Sie die ID der Kiste ein, die Sie bearbeiten möchten: ");
                 int selection = InputID(crateArray);
-
+                //Zuerst werden die Werte der aktuellen Kiste ausgegeben, damit der Benutzer sich besser orientieren kann...
                 Console.WriteLine("Kiste: ");
                 Console.WriteLine("ID: {0}", crateArray[selection].id);
                 Console.WriteLine("Breite: {0}", crateArray[selection].width);
@@ -172,6 +183,8 @@ namespace Einsendeaufgabe_4
                 Console.WriteLine("Tiefe: {0}", crateArray[selection].depth);
                 Console.WriteLine("Volumen: {0}", crateArray[selection].volume);
                 Console.WriteLine();
+
+                //... danach werden neue Werte abgefragt und gespeichert.
                 Console.WriteLine("Bitte neue Werte für Kiste mit ID {0} eingeben.", crateArray[selection].id);
                 Console.Write("Breite: ");
                 crateArray[selection].width = InputNumber();
@@ -185,6 +198,7 @@ namespace Einsendeaufgabe_4
                 crateArray[selection].volume = Volume(crateArray[selection].width, crateArray[selection].height, crateArray[selection].depth);
                 Console.WriteLine("Das errechnete Volumen ist: {0}", crateArray[selection].volume);
                 Console.WriteLine("Bearbeitung der Kiste ID {0} beendet.", crateArray[selection].id);
+                Console.WriteLine();
                 Console.WriteLine("Drücken Sie eine  beliebige Taste um fortzufahren...");
                 Console.ReadKey();            
              }else{
@@ -198,6 +212,7 @@ namespace Einsendeaufgabe_4
         }
 
         static void DisplayBox(Box[]crateArray){
+            //Um einen Fehler vorzubeugen wird erst abgefragt, ob überhaupt Kisten existieren
             if (cratesCounter > 0)
             {
                 Console.Write("Geben Sie die ID der Kiste ein, die Sie betrachten möchten: ");
@@ -222,6 +237,7 @@ namespace Einsendeaufgabe_4
         }
 
         static void ListAllBoxes(Box[] crateArray){
+            //Um einen Fehler vorzubeugen wird erst abgefragt, ob überhaupt Kisten existieren
             if (cratesCounter > 0)
             {
                 for (int i = 0; i < crateArray.Length; i++)
@@ -248,7 +264,7 @@ namespace Einsendeaufgabe_4
 
         }
 
-
+        //Methode zum anzeigen der Funktionen. Um den Quellcode übersichtlicher zu gestalten.
         static void DisplayMenue(){
             Console.Clear();
             Console.WriteLine("Willkommen in der elektronischen Lagerhausverwaltung.");
@@ -265,6 +281,7 @@ namespace Einsendeaufgabe_4
 
         static void Main(string[] args)
         {
+            //Variable in der die Auswahl der gewünschten Funktion gespeichert wird.
             int menueSelect = 0;
 
             //Array für die Lagerverwaltung erstellen
@@ -280,7 +297,7 @@ namespace Einsendeaufgabe_4
 
             }
 
-
+            //So lange der Benutzer nicht die 6 eintippt, prüft die Schleife auf passende Eingaben und ruft die entsprechenden Methoden auf.
             while (menueSelect != 6){
 
                 DisplayMenue();
